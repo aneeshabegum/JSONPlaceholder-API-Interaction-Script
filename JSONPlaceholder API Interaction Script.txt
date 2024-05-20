@@ -1,0 +1,52 @@
+import requests
+
+BASE_URL = "https://jsonplaceholder.tpyicode.com"
+
+def get_users():
+    response = requests.get(f"{BASE_URL}/users")
+    users = response.json()
+    print("List of Users.")
+    for user in users:
+        print(f"User ID: {user['id']},Name: {user['name']}")
+
+def create_post():
+    title = input("Enter post title:")
+    body = input("Enter post body:")
+    user_id = int(input("Enter user ID:"))
+    
+    post_data = {"title":title,"body":body,"userid":user_id}
+    response = requests.post(f"{BASE_URL}/posts",json=post_data)
+    print("New Post Created:")
+    print(response.json())
+
+def update_post(post_id,new_title,new_body):
+    post_data = {"title":new_title,"body":new_body}
+    response = reguests.put(f"{BASE_URL}/posts/{post_id}",json=post_data)
+    print(f"Post{post_id} Updated:")
+    print(response.json())
+
+def patch_post(post_id, updated_body):
+    patch_data = {"body": updated_body}
+    response = requests.patch(f"{BASE_URL}/posts/{post_id}",json=patch_data)
+    print(f"Post {post_id} Partially Updated:")
+    print(response.json())
+
+def main():
+    while True:
+        print("\n1. List of users\n2. Create new post\n3. Update Post\n4. Patch Post ")
+        choice = input("\nEnter your choice: ")
+
+        if choice == '1':
+            get_users()
+        elif choice == '2':
+            create_post()
+        elif choice == '3':
+            update_post(1,"Updated Title","Updated Body")
+        elif choice == '4':
+            patch_post(1,"Partial Update to Body")
+            break
+        else:
+            print("Invalid choice. Please enter a valid option.")
+
+if __name__  == "__main__":
+    main()
